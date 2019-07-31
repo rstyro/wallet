@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hereblock.wallet.provider.mapper.WalletAssetsRecordMapper">
+    <resultMap id="BaseResultMap" type="com.hereblock.wallet.provider.entity.WalletAssetsRecord">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="appid" property="appId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
+        <result column="coin_type" property="coinType" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="account" property="account" jdbcType="DECIMAL"/>
+        <result column="transfer_type" property="transferType" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id,appid,order_no,coin_type, address, account, transfer_type, create_time, update_time
+    </sql>
+    <select id="selectWalletAssetsRecord" resultMap="BaseResultMap"
+            parameterType="com.hereblock.wallet.provider.entity.WalletAssetsRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_assets_record
+        <where>
+            <if test="appId != null">
+                and appid=#{appId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id=#{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="orderNo != null">
+                and order_no=#{orderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="coinType != null">
+                and coin_type=#{coinType,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                and address=#{address,jdbcType=VARCHAR}
+            </if>
+            <if test="transferType != null">
+                and transfer_type=#{transferType,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertWalletAssetsRecord" parameterType="com.hereblock.wallet.provider.entity.WalletAssetsRecord">
+        insert into tb_wallet_assets_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="appId != null">
+                appid,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
+            </if>
+            <if test="coinType != null">
+                coin_type,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="transferType != null">
+                transfer_type,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="coinType != null">
+                #{coinType,jdbcType=INTEGER},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=DECIMAL},
+            </if>
+            <if test="transferType != null">
+                #{transferType,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+</mapper>

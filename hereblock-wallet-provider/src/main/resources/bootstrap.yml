@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: hereblock-wallet
+  cloud:
+    consul:
+      host: config.server.com
+      port: 8500
+      discovery:
+        heartbeat:
+          enabled: true
+        enabled: true
+        register: true
+        deregister: true
+        prefer-ip-address: true
+        instance-id: ${spring.application.name}:${random.value}
+        query-passing: true
+      config:
+        format: YAML
+        enabled: true
+        default-context: ${spring.application.name}
+        data-key: data
+        prefix: config
+        watch:
+          enabled: true
+
+
+
+

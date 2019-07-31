@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hereblock.wallet.provider.mapper.WalletTransferMapper">
+    <resultMap id="BaseResultMap" type="com.hereblock.wallet.provider.entity.WalletTransfer">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="transfer_no" property="transferNo" jdbcType="VARCHAR"/>
+        <result column="withdraw_order_no" property="withdrawOrderNo" jdbcType="VARCHAR"/>
+        <result column="transfer_type" property="transferType" jdbcType="TINYINT"/>
+        <result column="coin_type" property="coinType" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="from_address" property="fromAddress" jdbcType="VARCHAR"/>
+        <result column="to_address" property="toAddress" jdbcType="VARCHAR"/>
+        <result column="qty" property="qty" jdbcType="DECIMAL"/>
+        <result column="tx_id" property="txId" jdbcType="VARCHAR"/>
+        <result column="tx_fee" property="txFee" jdbcType="DECIMAL"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="confirm_time" property="confirmTime" jdbcType="TIMESTAMP"/>
+        <result column="gas_price" property="gasPrice" jdbcType="DECIMAL"/>
+        <result column="gas_limit" property="gasLimit" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, transfer_no,withdraw_order_no, transfer_type, coin_type,address, from_address, to_address, qty, tx_id, tx_fee, status, confirm_time,
+        gas_price, gas_limit, create_time, update_time
+    </sql>
+
+    <select id="selectExceptionWalletTransfer" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_transfer where coin_type = #{coinType,jdbcType=VARCHAR}
+        and status = 9 and transfer_type = 3 and create_time &gt;= date_add(now(), interval -1 day)
+    </select>
+
+    <select id="selectWalletTransferByTxId" resultMap="BaseResultMap"
+            parameterType="com.hereblock.wallet.provider.entity.WalletTransfer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_transfer where tx_id=#{txId,jdbcType=VARCHAR} and transfer_type in (4,5)
+    </select>
+
+    <select id="selectWalletTransfer" resultMap="BaseResultMap"
+            parameterType="com.hereblock.wallet.provider.entity.WalletTransfer">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_transfer
+        <where>
+            <if test="transferNo != null">
+                and transfer_no=#{transferNo,jdbcType=VARCHAR}
+            </if>
+            <if test="withdrawOrderNo != null">
+                and withdraw_order_no=#{withdrawOrderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="transferType != null">
+                and transfer_type=#{transferType,jdbcType=TINYINT}
+            </if>
+            <if test="coinType != null">
+                and coin_type=#{coinType,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                and address=#{address,jdbcType=VARCHAR}
+            </if>
+            <if test="fromAddress != null">
+                and from_address=#{fromAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="toAddress != null">
+                and to_address=#{toAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="txId != null">
+                and tx_id=#{txId,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null">
+                and status=#{status,jdbcType=TINYINT}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="insertWalletTransfer" parameterType="com.hereblock.wallet.provider.entity.WalletTransfer">
+        insert into tb_wallet_transfer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="transferNo != null">
+                transfer_no,
+            </if>
+            <if test="withdrawOrderNo != null">
+                withdraw_order_no,
+            </if>
+            <if test="transferType != null">
+                transfer_type,
+            </if>
+            <if test="coinType != null">
+                coin_type,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="fromAddress != null">
+                from_address,
+            </if>
+            <if test="toAddress != null">
+                to_address,
+            </if>
+            <if test="qty != null">
+                qty,
+            </if>
+            <if test="txId != null">
+                tx_id,
+            </if>
+            <if test="txFee != null">
+                tx_fee,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="confirmTime != null">
+                confirm_time,
+            </if>
+            <if test="gasPrice != null">
+                gas_price,
+            </if>
+            <if test="gasLimit != null">
+                gas_limit,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="transferNo != null">
+                #{transferNo,jdbcType=VARCHAR},
+            </if>
+            <if test="withdrawOrderNo != null">
+                #{withdrawOrderNo,jdbcType=VARCHAR},
+            </if>
+            <if test="transferType != null">
+                #{transferType,jdbcType=TINYINT},
+            </if>
+            <if test="coinType != null">
+                #{coinType,jdbcType=INTEGER},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="fromAddress != null">
+                #{fromAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="toAddress != null">
+                #{toAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="qty != null">
+                #{qty,jdbcType=DECIMAL},
+            </if>
+            <if test="txId != null">
+                #{txId,jdbcType=VARCHAR},
+            </if>
+            <if test="txFee != null">
+                #{txFee,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="confirmTime != null">
+                #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gasPrice != null">
+                #{gasPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="gasLimit != null">
+                #{gasLimit,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateWalletTransferByTransferNo" parameterType="com.hereblock.wallet.provider.entity.WalletTransfer">
+        update tb_wallet_transfer set tx_id = #{txId,jdbcType=VARCHAR} where transfer_no=#{transferNo,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateStatusByTransferNo" parameterType="com.hereblock.wallet.provider.entity.WalletTransfer">
+        update tb_wallet_transfer set tx_id = #{txId,jdbcType=VARCHAR},status = #{status,jdbcType=TINYINT} where transfer_no=#{transferNo,jdbcType=VARCHAR}
+    </update>
+
+    <update id="updateWalletTransfer" parameterType="com.hereblock.wallet.provider.entity.WalletTransfer">
+        update tb_wallet_transfer
+        <set>
+            <if test="transferType != null">
+                transfer_type = #{transferType,jdbcType=TINYINT},
+            </if>
+            <if test="coinType != null">
+                coin_type = #{coinType,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="fromAddress != null">
+                from_address = #{fromAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="toAddress != null">
+                to_address = #{toAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="qty != null">
+                qty = #{qty,jdbcType=DECIMAL},
+            </if>
+            <if test="txId != null">
+                tx_id = #{txId,jdbcType=VARCHAR},
+            </if>
+            <if test="txFee != null">
+                tx_fee = #{txFee,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="confirmTime != null">
+                confirm_time = #{confirmTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gasPrice != null">
+                gas_price = #{gasPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="gasLimit != null">
+                gas_limit = #{gasLimit,jdbcType=DECIMAL},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <where>
+            <if test="transferNo != null">
+                and transfer_no=#{transferNo,jdbcType=VARCHAR}
+            </if>
+            <if test="withdrawOrderNo != null">
+                and withdraw_order_no=#{withdrawOrderNo,jdbcType=VARCHAR}
+            </if>
+            <if test="transferType != null">
+                and transfer_type=#{transferType,jdbcType=TINYINT}
+            </if>
+            <if test="coinType != null">
+                and coin_type=#{coinType,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                and address=#{address,jdbcType=VARCHAR}
+            </if>
+            <if test="fromAddress != null">
+                and from_address=#{fromAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="toAddress != null">
+                and to_address=#{toAddress,jdbcType=VARCHAR}
+            </if>
+            <if test="txId != null">
+                and tx_id=#{txId,jdbcType=VARCHAR}
+            </if>
+            <if test="oldStatus != null">
+                and status=#{oldStatus,jdbcType=TINYINT}
+            </if>
+        </where>
+    </update>
+
+
+</mapper>

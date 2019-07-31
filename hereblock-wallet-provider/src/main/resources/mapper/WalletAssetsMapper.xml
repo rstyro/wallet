@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hereblock.wallet.provider.mapper.WalletAssetsMapper">
+    <resultMap id="BaseResultMap" type="com.hereblock.wallet.provider.entity.WalletAssets">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="appid" property="appId" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="VARCHAR"/>
+        <result column="coin_type" property="coinType" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="total_account" property="totalAccount" jdbcType="DECIMAL"/>
+        <result column="version" property="version" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id,appid,coin_type, address, total_account, version, create_time, update_time
+    </sql>
+
+    <select id="selectWalletAssetsByAddress" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_assets
+        where address=#{address,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectWalletAssetsByClause" resultMap="BaseResultMap"
+            parameterType="com.hereblock.wallet.provider.entity.WalletAssets">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_assets
+        <where>
+            <if test="appId != null">
+                and appid=#{appId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id=#{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="coinType != null">
+                and coin_type=#{coinType,jdbcType=VARCHAR}
+            </if>
+            <if test="coinTypes != null">
+                <foreach collection="coinTypes" item="coinType" open="(" close=")" separator=",">
+                    #{coinType}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectWalletAssets" resultMap="BaseResultMap"
+            parameterType="com.hereblock.wallet.provider.entity.WalletAssets">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_wallet_assets
+        <where>
+            <if test="appId != null">
+                and appid=#{appId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id=#{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="coinType != null">
+                and coin_type=#{coinType,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                and address=#{address,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertWalletAssets" parameterType="com.hereblock.wallet.provider.entity.WalletAssets">
+        insert into tb_wallet_assets
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="appId != null">
+                appid,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="coinType != null">
+                coin_type,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="totalAccount != null">
+                total_account,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="appId != null">
+                #{appId,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="coinType != null">
+                #{coinType,jdbcType=INTEGER},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="totalAccount != null">
+                #{totalAccount,jdbcType=DECIMAL},
+            </if>
+            <if test="version != null">
+                #{version,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateWalletAssets" parameterType="com.hereblock.wallet.provider.entity.WalletAssets">
+        update tb_wallet_assets
+        <set>
+            <if test="totalAccount != null">
+                total_account = #{totalAccount,jdbcType=DECIMAL},
+            </if>
+            <if test="version != null">
+                version = #{version,jdbcType=INTEGER},
+            </if>
+        </set>
+        <where>
+            <if test="appId != null">
+                and appid=#{appId,jdbcType=VARCHAR}
+            </if>
+            <if test="userId != null">
+                and user_id=#{userId,jdbcType=VARCHAR}
+            </if>
+            <if test="coinType != null">
+                and coin_type=#{coinType,jdbcType=VARCHAR}
+            </if>
+            <if test="address != null">
+                and address=#{address,jdbcType=VARCHAR}
+            </if>
+            <if test="oldVersion != null">
+                and version = #{oldVersion,jdbcType=INTEGER}
+            </if>
+            <if test="totalAccount != null">
+                and total_account &gt; 0
+            </if>
+        </where>
+    </update>
+</mapper>

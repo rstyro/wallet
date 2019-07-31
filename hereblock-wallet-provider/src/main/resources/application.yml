@@ -1,0 +1,74 @@
+server:
+  port: 18118
+  compression:
+    enabled: true
+
+logging:
+  config: classpath:logback-spring-dev.xml
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://192.168.1.224:3306/wallet?tinyInt1isBit=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&failOverReadOnly=false&zeroDateTimeBehavior=convertToNull&useSSL=false
+    username: root
+    password: 123456
+  profiles:
+    active: dev
+  redis:
+    clusterNodes: 192.168.1.223:6379,192.168.1.223:6380,192.168.1.223:6381,192.168.1.223:6382,192.168.1.223:6383,192.168.1.223:6384
+    commandTimeout: 2000
+    maxAttempts: 5
+    maxActive: 8
+    maxIdle: 8
+    maxWait: -1
+    minIdle: 0
+    password: 123456
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  rocketmq:
+    name-server-address: 192.168.1.223:9876
+    producer-group: hereblock-wallet-producer
+    send-msg-timeout: 5000
+    #vip-channel-enabled: false
+mybatis:
+  mapper-locations: classpath*:mapper/**.xml
+  configuration:
+    default-fetch-size: 100
+    default-statement-timeout: 30
+    map-underscore-to-camel-case: true
+
+btc:
+  fee:
+    address: 1HxakGF9Xjyot1kUrE2ACcLzZys9XnZmQx
+    amount: 0.00015
+    usdt:
+      address: 1HxakGF9Xjyot1kUrE2ACcLzZys9XnZmQx
+  rpc:
+    url: http://otc:123456@192.168.1.226:8332/
+  server:
+    url: http://192.168.1.226:8332
+    basicauth: b3RjOjEyMzQ1Ng==
+eth:
+  server:
+    url: http://192.168.1.225:8090
+  queryAccountUrl: http://api.etherscan.io/api?module=account&action=txlist&address=#&startblock=0&endblock=99999999&sort=asc&apikey=
+  queryTransactionUrl: https://api.etherscan.io/api?module=transaction&action=gettxreceiptstatus&txhash=#&apikey=
+httpclient:
+  config:
+    retryTime: 5000
+    connMaxTotal: 20
+    maxPerRoute: 20
+    timeToLive: 60
+    keepAliveTime: 30
+    #    proxyHost:
+    #    proxyPort:
+    connectTimeout: 5000
+    connectRequestTimeout: 5000
+    socketTimeout: 5000
+distributed_id_data_center_id: 8
+
+
