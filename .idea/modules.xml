@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/hereblock-wallet.iml" filepath="$PROJECT_DIR$/hereblock-wallet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hereblock-wallet-api/hereblock-wallet-api.iml" filepath="$PROJECT_DIR$/hereblock-wallet-api/hereblock-wallet-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hereblock-wallet-provider/hereblock-wallet-provider.iml" filepath="$PROJECT_DIR$/hereblock-wallet-provider/hereblock-wallet-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/hereblock-wallet-rpc/hereblock-wallet-rpc.iml" filepath="$PROJECT_DIR$/hereblock-wallet-rpc/hereblock-wallet-rpc.iml" />
+    </modules>
+  </component>
+</project>
